@@ -1,0 +1,198 @@
+﻿#MainContent{
+  overflow: hidden;
+}
+.audio-player {
+  background: rgba(66,166,172,0.95);
+}
+.listItems.thumbnail-items .thumb-head img{
+  width: 100%;
+}
+.search__page .showBookCats {
+  display: none;
+}
+
+@media (max-width: 1099px) {
+  .search__page .showBookCats {
+    display: inline-block;
+  }
+}
+
+@media (max-width: 991px){
+  .d-block-sm{
+    display: block !important;
+  }
+  .d-block-sm{
+    text-align: center;
+  }
+  .d-block-sm *{
+    text-align: center !important;
+  }
+
+  #mainSearch #search-pc {
+    width: 90%;
+    float: left;
+  }
+
+  html[dir="rtl"] #mainSearch .form-control-icon .input-icon {
+    right: 3.6rem;
+  }
+
+  .backFromSearch a {
+    padding: 14px 6px !important;
+    line-height: 20px !important;
+  }
+  .backFromSearch a span {
+    line-height: 17px;
+  }
+}
+@media (max-width: 576px){
+  .thumbnail-items.thumbnail-items-cols>li {
+    -ms-flex: 1 0 100%;
+    flex: 1 0 100%;
+    max-width: 100%;
+    padding: 5px 25px;
+  }
+}
+
+.srch--txt {
+  color: red;
+  font-weight: bold;
+}
+
+@media print {
+  @page {
+    size: landscape;
+    text-align: right !important;
+  }
+}
+
+.radio__label {
+  padding-right: 32px;
+  margin-right: 15px;
+  padding-left: 15px;
+  margin-left: 0;
+  text-align: right;
+  color: #666;
+  display: block;
+  vertical-align: middle;
+  cursor: pointer;
+  line-height: 45px;
+  height: 45px;
+}
+
+.custom__radio {
+  border: 0px;
+  width: 10%;
+  height: 2em;
+  margin-top: 8px;
+}
+
+@media (max-width: 812px) {
+  .foot-menu li {
+    padding: 5px 5px;
+  }
+}
+
+@media (max-width: 530px) {
+  .bookContent-footer-Side2 {
+    display: none;
+  }
+
+  .bookContent-footer-Side3 {
+    width: 50%
+  }
+
+  .bookContent-footer-Side1 input {
+    width: 50%
+  }
+}
+
+@font-face {
+  font-family: 'gess-heading';
+  src: url("../fonts/GE SS TWO BOLD.OTF");
+}
+
+@font-face {
+  font-family: 'gess-subheading';
+  src: url("../fonts/GE SS TWO MEDIUM.OTF");
+}
+
+@font-face {
+  font-family: 'gess-text';
+  src: url("../fonts/GE_SS_TWO_LIGHT.OTF");
+}
+
+@font-face {
+  font-family: 'hafs';
+  src: url("../fonts/UthmanicHafs_v16 font/UthmanicHafs1 Ver16.ttf");
+}
+
+@font-face {
+  font-family: 'adwa';
+  src: url("../fonts/ADWA-ASSALAF.TTF");
+}
+
+@font-face {
+  font-family: 'dubai';
+  src: url("../fonts/dubai/DubaiW23-Regular.ttf");
+}
+
+@font-face {
+  font-family: 'naskh';
+  src: url("../fonts/UthmanTN1 Ver10.otf");
+}
+
+.strong5 {
+  font-family: gess-heading;
+}
+.strong6 {
+  font-family: gess-subheading;
+}
+
+html[dir="rtl"] body {
+  font-family: gess-text !important;
+}
+
+.aya {
+  font-family: hafs !important;
+  unicode-bidi: bidi-override;
+}
+
+nav > .previous, nav > .next {
+font-family: "cairo",sans-serif !important
+}
+
+.jw-playlist .jw-name {
+  width: 100% !important;
+  text-align: right !important;
+}
+
+li.jw-option{
+  direction: rtl !important;
+}
+
+html[dir='rtl'] .form-group {
+  text-align: right;
+}
+
+#inner--contents, #inner--contents *:not(h2, h1), #inner--contents span, .inner--contents, .inner--contents *:not(h2), .inner--contents span {
+  font-size: 20px;
+  line-height: 1.9rem;
+  margin: 17px 0;
+  text-align: justify;
+}
+
+.LighterText {
+  text-align: justify;
+}
+
+html[dir="rtl"] #close--icon {
+  left: 1.1rem !important;
+  right: auto !important;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+html[dir="rtl"] .form-control-icon .form-control {
+  padding-left: 2.5rem !important;
+}

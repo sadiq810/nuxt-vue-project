@@ -1,0 +1,172 @@
+<template>
+  <div id="MainContent" class="book-content book-content-view book-white">
+    <div class="MainContent-Container">
+      <BreadCrumbComponent :title="$t('sheikh_abstract')" :heading="$t('sheikh_abstract')"/>
+
+      <div class="sec-container InnerPage-Box" style="margin-top: -60px;">
+        <div class="CategoryWithFilter">
+          <div class="Category-MainContent">
+            <article class="bookPage box mb-4">
+              <div class="bookViewHead postViewHead">
+                <div class="bookViewHead-inner">
+                  <div class="d-flex justify-content-between">
+                    <div class="bookViewHead-block ">
+                      <div class="head-title p-2" style="width: 100%">
+                        <h2 class="MainText strong6 mb-2">{{ data.title }}</h2>
+                      </div>
+                    </div>
+                    <div class="bookViewHead-block bookViewHead-left">
+                      <ContentSettingComponent :bgColor="this.bgColor" @onBgColorChange="setBgColor"/>
+                      <div class="dropdown inline-block">
+                        <a href="#" class="thumb thumb-xs thumb-round dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="ico-share"></i>
+                        </a>
+                        <div class="dropdown-menu text-right">
+                          <SocialComponent :item="data" :heading="$t('share')" :curl="url"/>
+                        </div>
+                      </div>
+                      <PrintAndReportComponent elementId="printMe"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bookViewContent">
+                <div class="box-post" id="printMe">
+                  <div style="margin-bottom: 30px; text-align: right" v-html="data.details"></div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="SideBar">
+            <div class="box book-categories">
+              <div class="head-title p-3 border-bottom">
+                <h5 class="strong6 mb-0">{{ $t('read_also') }}</h5>
+              </div>
+              <div class="sideBookmarks-scrollBox">
+                <div class="underline-list multiLevels-menu">
+                  <ul>
+                    <li v-for="item in related" :key="item.id">
+                      <div class="ml-item"> <i class="ico-file ml-item-ico"></i>
+                        <nLink :to="localePath(`/abstracts/${item.id}`)">{{ item.title }}</nLink>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import BreadCrumbComponent from "@/components/BreadCrumbComponent";
+import SocialComponent from "@/components/SocialComponent";
+import ContentSettingComponent from "@/components/ContentSettingComponent";
+import PrintAndReportComponent from "@/components/PrintAndReportComponent";
+import {mapGetters} from 'vuex';
+import {stripTags} from "../../utility/Utility";
+
+export default {
+  components: {PrintAndReportComponent, ContentSettingComponent, SocialComponent, BreadCrumbComponent},
+  async asyncData({app, params, store}) {
+    let result = undefined;
+    if (store.state.abstracts && store.state.abstracts.data && store.state.abstracts.data.length > 0)
+      result = store.state.abstracts.data.find(f => f.id == params.id);
+
+    if (result)
+      return {data: result, related: store.state.abstracts.data.filter(f => f.id != result.id)};
+    else {
+      try {
+        let {data} = await app.$axios.get(`/single-abstract/${params.id}`);
+        return {data: data.data, related: data.related};
+      } catch (error) {
+        console.log('Could not fetch single abstract, in detail abstract.', error);
+      }//..... end of try-catch() .....//
+    }//..... end if-else() .....//
+  },
+
+  data() {
+    return {
+      data: {},
+      related: [],
+      bgColor: 'white'
+    }
+  },
+
+  mounted() {
+    this.$store.dispatch('recordPageView', {type: 'abstract', id: this.$route.params.id});
+  },
+
+  computed: {
+    ...mapGetters(['getSiteDirection', 'getBreadcrumbs']),
+
+    url() {
+      return process.client ? window.location.href : null;
+    },
+
+    getTitleForPage() {
+      return this.$t('sheikh_abstract') + " - " +this.data.title;
+    },
+
+    getDescriptionForSeo() {
+      let des = this.data.details;
+      if (des) {
+        des = stripTags(des);
+        return des.substr(0, 160);
+      }
+
+      return this.getTitleForPage;
+    }
+  },
+
+  methods: {
+    setBgColor(color) {
+      this.bgColor = color;
+    }
+  },
+
+  jsonld() {
+    return this.getBreadcrumbs;
+  },
+
+  head() {
+    const i18nSeo = this.$nuxtI18nHead({ addSeoAttributes: true });
+    let title = this.getTitleForPage + " - " +this.$t('meta.title');
+    let description = this.getDescriptionForSeo;
+    let keywords = this.$t('meta.keywords');
+    let url = "https://ibn-mahmoud.com/abstracts/"+this.$route.params.id;
+
+    return {
+      title: title,
+      htmlAttrs: {
+        ...i18nSeo.htmlAttrs,
+        dir: this.getSiteDirection
+      },
+      bodyAttrs: {
+        class: ""
+      },
+      meta: [
+        {name: 'keywords', content: keywords},
+        {hid: 'og-title', property: 'og:title', content: '' + title + ''},
+        {hid: 'og:description', content: '' + description + '', property: 'og:description'},
+        {hid: 'og:site_name', property: 'og:site_name', content: '' + title + ''},
+        {hid: 'meta-title', name: 'title', content: '' + title + ''},
+        {hid: 'description', name: 'description', content: '' + description + ''},
+        {hid: 'twitter:title', name: 'twitter:title', content: '' + title + ''},
+        {hid: 'twitter:description', name: 'twitter:description', content: '' + description + '' },
+        {hid: 'og:url', content: '' + url + '', property: 'og:url'},
+        {hid: 'twitter:url',name: "twitter:url", content: '' + url + ''},
+        ...i18nSeo.meta
+      ],
+      link: [
+        ...i18nSeo.link
+      ]
+    }
+  }
+}
+</script>
