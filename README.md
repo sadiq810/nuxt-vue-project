@@ -1,4 +1,4 @@
-# ibnmehmood
+# Nuxt js project
 
 - Please create .env file at the root of the project and copy content from
 .env.example file.
